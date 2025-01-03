@@ -1,0 +1,30 @@
+{
+  "name": "phonepe_integration",
+  "version": "1.0.0",
+  "description": "Code examples and step-by-step instructions for PhonePe webhook X-Verify implementation and web integration.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majidshakeelshawl/phonepe_integration.git"
+  },
+  "keywords": [
+    "PhonePe",
+    "X-Verify",
+    "Callback",
+    "Nodejs",
+    "Express",
+    "PhonePe-Web"
+  ],
+  "author": "Majid Shakeel Shawl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/majidshakeelshawl/phonepe_integration/issues"
+  },
+  "homepage": "https://github.com/majidshakeelshawl/phonepe_integration#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
