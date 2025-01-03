@@ -23,8 +23,14 @@
 
 <script>
     document.getElementById('phonepe-pay-button').addEventListener('click', () => {
-        alert('Redirecting to PhonePe...');
-        window.location.href = '/pay';
+        fetch('/createPhonePePayment', {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', body: JSON.stringify({
+                amount: 1000, merchantUserId: 232, mobileNumber: 1234567890, name: "PREM", email: "prem@chaim.com"
+            }),
+        }).then((data) => data.json()).then((res) => {
+            window.location.href = res.redirectURL;
+        });
     });
 </script>
 </body>
