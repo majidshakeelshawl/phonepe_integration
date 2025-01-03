@@ -1,9 +1,11 @@
 import express from 'express';
 import os from 'os';
-import crypto from 'crypto';
 
 const app = express();
 app.use(express.json());
+
+// Utils
+import { generateXVerifyPayment, initiatePayment, plainToBase64 } from './utils/phonePe.js';
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -18,6 +20,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createPhonePePayment', async (req, res) => {
+    const saltKey = process.env.PHONEPE_SALT_KEY_TEST;
+    const saltIndex = process.env.PHONEPE_SALT_INDEX_TEST;
+
     const { amount, merchantUserId, mobileNumber, name, email } = req.body;
     const merchantId = process.env.PHONEPE_MERCHANT_ID_TEST;
     const merchantTransactionId = `txn_${Date.now()}`;
@@ -40,29 +45,12 @@ app.post('/createPhonePePayment', async (req, res) => {
     };
 
     // Generate X-VERIFY
-    const saltKey = process.env.PHONEPE_SALT_KEY_TEST;
-    const saltIndex = process.env.PHONEPE_SALT_INDEX_TEST;
-    const base64Encoded = Buffer.from(JSON.stringify(payload)).toString('base64');
-    const requiredString = `${base64Encoded}/pg/v1/pay${saltKey}`;
-    const X_VERIFY = `${crypto.createHash('sha256').update(requiredString).digest('hex')}###${saltIndex}`
-    console.table({
-        apiEndpoint: process.env.PHONEPE_API_TEST + '/pg/v1/pay',
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'X-VERIFY': X_VERIFY,
-        },
-        body: JSON.stringify({ request: base64Encoded }),
-    });
-    const data = await fetch(process.env.PHONEPE_API_TEST + '/pg/v1/pay', {
-        method: "POST",
-        body: JSON.stringify({ request: base64Encoded }),
-        headers: {
-            'Content-Type': 'application/json',
-            'X-VERIFY': X_VERIFY,
-        },
-    });
-    const response = await data.json();
+    const X_VERIFY = generateXVerifyPayment(saltKey, saltIndex, payload);
+    // base64EncodedPayload
+    const base64EncodedPayload = plainToBase64(payload);
+    // Initiate Phonepe
+    const response = await initiatePayment(base64EncodedPayload, X_VERIFY);
+
     console.log("PhonePe Response: ");
     console.dir(response, { depth: null });
 
@@ -75,11 +63,11 @@ app.post('/createPhonePePayment', async (req, res) => {
 app.use(express.static('public'));
 
 
-app.listen(3000, () => {
+app.listen(3011, () => {
     if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
         console.table({
             status: 'running',
-            port: 3000,
+            port: 3011,
             time: new Date().toLocaleString(),
             os: os.platform(),
             host: os.hostname(),
