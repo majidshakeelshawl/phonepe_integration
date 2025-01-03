@@ -23,7 +23,7 @@
 
 <script>
     document.getElementById('phonepe-pay-button').addEventListener('click', () => {
-        fetch('/createPhonePePayment', {
+        fetch('/payment/createPhonePePayment', {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST', body: JSON.stringify({
                 amount: 1000, merchantUserId: 232, mobileNumber: 1234567890, name: "PREM", email: "prem@chaim.com"
