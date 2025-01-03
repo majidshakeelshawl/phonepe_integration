@@ -4,6 +4,20 @@ import os from 'os';
 const app = express();
 app.use(express.json());
 
+// View Engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'PhonePe | Web Integration',
+        message: 'Welcome to the home page',
+    });
+});
+
+// Static
+app.use(express.static('public'));
+
 
 app.listen(3000, () => {
     if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
