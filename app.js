@@ -3,7 +3,7 @@ import os from 'os';
 
 const app = express();
 app.use(express.json());
-
+console.log(process.env.ENVIRONMENT);
 
 app.listen(3000, () => {
     console.table({
