@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+    <%= title %>
+</title>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div class="center-container">
+    <h1>
+        <%= message %>
+            <span class="env-badge">
+                <%= environment %>
+            </span>
+    </h1>
+    <span>
+        <button id="phonepe-pay-button" class="pay-button">Pay with PhonePe</button>
+    </span>
+</div>
 
+<script>
+    document.getElementById('phonepe-pay-button').addEventListener('click', () => {
+        alert('Redirecting to PhonePe...');
+        window.location.href = '/pay';
+    });
+</script>
 </body>
 </html>
