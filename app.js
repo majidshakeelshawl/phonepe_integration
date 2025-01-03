@@ -24,9 +24,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createPhonePePayment', async (req, res) => {
-    const saltKey = process.env.PHONEPE_SALT_KEY_TEST;
-    const saltIndex = process.env.PHONEPE_SALT_INDEX_TEST;
-
     const { amount, merchantUserId, mobileNumber, name, email } = req.body;
     const merchantId = process.env.PHONEPE_MERCHANT_ID_TEST;
     const merchantTransactionId = `txn_${Date.now()}`;
@@ -49,7 +46,7 @@ app.post('/createPhonePePayment', async (req, res) => {
     };
 
     // Generate X-VERIFY
-    const X_VERIFY = generateXVerifyPayment(saltKey, saltIndex, payload);
+    const X_VERIFY = generateXVerifyPayment(payload);
     // base64EncodedPayload
     const base64EncodedPayload = plainToBase64(payload);
     // Initiate Phonepe
@@ -67,9 +64,7 @@ app.post('/createPhonePePayment', async (req, res) => {
 app.post('/webhook/phonePe/web/callback', async (req, res) => {
     const xVerify = req.headers['x-verify'];
     const payload = req.body.response;
-    const saltKey = process.env.PHONEPE_SALT_KEY_TEST;
-    const saltIndex = process.env.PHONEPE_SALT_INDEX_TEST;
-    const computedXverify = generateXVerifyCallback(payload, saltKey, saltIndex);
+    const computedXverify = generateXVerifyCallback(payload);
     if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
         console.log(xVerify, computedXverify);
     }
