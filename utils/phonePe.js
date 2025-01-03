@@ -23,3 +23,7 @@ export async function initiatePayment(base64EncodedPayload, xVerify) {
     return data.json();
 
 }
+
+export function generateXVerifyCallback(payload, saltKey, saltIndex) {
+    return crypto.createHash('sha256').update(payload + saltKey).digest('hex') + `###${saltIndex}`;
+}

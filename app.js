@@ -1,11 +1,15 @@
 import express from 'express';
 import os from 'os';
+import morgan from 'morgan';
+
+// Utils
+import { generateXVerifyPayment, initiatePayment, plainToBase64, generateXVerifyCallback } from './utils/phonePe.js';
 
 const app = express();
 app.use(express.json());
 
-// Utils
-import { generateXVerifyPayment, initiatePayment, plainToBase64 } from './utils/phonePe.js';
+// Morgan
+app.use(morgan('dev'));
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -36,9 +40,9 @@ app.post('/createPhonePePayment', async (req, res) => {
         name,
         email,
         mobileNumber,
-        redirectUrl: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-        redirectMode: 'POST',
-        callbackUrl: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        redirectUrl: 'https://66f6-49-36-202-232.ngrok-free.app/',
+        redirectMode: 'REDIRECT',
+        callbackUrl: `${process.env.NGROK_URL}/webhook/phonePe/web/callback`,
         paymentInstrument: {
             type: 'PAY_PAGE',
         },
@@ -58,6 +62,27 @@ app.post('/createPhonePePayment', async (req, res) => {
         redirectURL: response.data.instrumentResponse.redirectInfo.url
     });
 });
+
+// Callback URL 
+app.post('/webhook/phonePe/web/callback', async (req, res) => {
+    const xVerify = req.headers['x-verify'];
+    const payload = req.body.response;
+    const saltKey = process.env.PHONEPE_SALT_KEY_TEST;
+    const saltIndex = process.env.PHONEPE_SALT_INDEX_TEST;
+    const computedXverify = generateXVerifyCallback(payload, saltKey, saltIndex);
+    if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
+        console.log(xVerify, computedXverify);
+    }
+    if (xVerify === computedXverify) {
+        console.log("Hash Matched ✅");
+        // Here we can do our business logic.
+    } else {
+        return res.status(401).send({
+            message: 'Hash Mismatched'
+        });
+    }
+});
+
 
 // Static
 app.use(express.static('public'));
