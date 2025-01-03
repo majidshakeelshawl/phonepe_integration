@@ -83,11 +83,11 @@ app.post('/webhook/phonePe/web/callback', async (req, res) => {
 app.use(express.static('public'));
 
 
-app.listen(3011, () => {
+app.listen(process.env.PORT, () => {
     if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
         console.table({
             status: 'running',
-            port: 3011,
+            port: process.env.PORT,
             time: new Date().toLocaleString(),
             os: os.platform(),
             host: os.hostname(),
