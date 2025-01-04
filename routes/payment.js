@@ -10,7 +10,6 @@ router.post('/createPhonePePayment', async (req, res) => {
     const { amount, merchantUserId, mobileNumber, name, email } = req.body;
     const merchantId = process.env.PHONEPE_MERCHANT_ID_TEST;
     const merchantTransactionId = `txn_${Date.now()}`;
-    console.log(req.body)
 
     const payload = {
         merchantId,

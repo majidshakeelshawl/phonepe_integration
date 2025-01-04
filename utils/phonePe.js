@@ -38,7 +38,6 @@ export async function initiatePayment(base64EncodedPayload, xVerify) {
         },
     });
     return data.json();
-
 }
 
 export function generateXVerifyCallback(payload) {
