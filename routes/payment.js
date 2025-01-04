@@ -20,7 +20,7 @@ router.post('/createPhonePePayment', async (req, res) => {
         name,
         email,
         mobileNumber,
-        redirectUrl: `${PHONE_PE_CONSTANTS.BASE_URL}/payment/status`,
+        redirectUrl: `${PHONE_PE_CONSTANTS.BASE_URL}/payment/status?transactionId=${merchantTransactionId}`,
         redirectMode: 'REDIRECT',
         callbackUrl: `${PHONE_PE_CONSTANTS.BASE_URL}/webhook/phonePe/web/callback`,
         paymentInstrument: {
@@ -44,13 +44,20 @@ router.post('/createPhonePePayment', async (req, res) => {
 });
 
 router.get('/status', (req, res) => {
+    const { transactionId } = req.query;
+
+    // Here Goes the logic for fetching the payment status from the database using the transactionId
+    // and then render the payment status page with the status and transactionId.
+
+    // Logic Ends
+
     res.render('paymentStatus', {
         title: 'PhonePe | Web Integration',
         message: 'PhonePe Payment',
         // You have to implement this dynamically using the transactionId and get the record that
         // is updated by the callbackUrl webhook.
         status: "SUCCESS",
-        transactionId: "SAMPLE_ID",
+        transactionId: transactionId,
     });
 });
 
