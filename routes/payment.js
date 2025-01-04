@@ -2,6 +2,7 @@ import { Router } from "express";
 
 // Utils
 import { initiatePayment, generateXVerifyPayment, plainToBase64 } from "../utils/phonePe.js";
+import PHONE_PE_CONSTANTS from '../utils/phonePe.js';
 
 const router = Router();
 
@@ -19,9 +20,9 @@ router.post('/createPhonePePayment', async (req, res) => {
         name,
         email,
         mobileNumber,
-        redirectUrl: 'https://66f6-49-36-202-232.ngrok-free.app/',
+        redirectUrl: `${PHONE_PE_CONSTANTS.BASE_URL}/payment/status`,
         redirectMode: 'REDIRECT',
-        callbackUrl: `${process.env.NGROK_URL}/webhook/phonePe/web/callback`,
+        callbackUrl: `${PHONE_PE_CONSTANTS.BASE_URL}/webhook/phonePe/web/callback`,
         paymentInstrument: {
             type: 'PAY_PAGE',
         },
@@ -42,7 +43,15 @@ router.post('/createPhonePePayment', async (req, res) => {
     });
 });
 
-
-
+router.get('/status', (req, res) => {
+    res.render('paymentStatus', {
+        title: 'PhonePe | Web Integration',
+        message: 'PhonePe Payment',
+        // You have to implement this dynamically using the transactionId and get the record that
+        // is updated by the callbackUrl webhook.
+        status: "SUCCESS",
+        transactionId: "SAMPLE_ID",
+    });
+});
 
 export default router;

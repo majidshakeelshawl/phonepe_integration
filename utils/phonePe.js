@@ -44,3 +44,7 @@ export async function initiatePayment(base64EncodedPayload, xVerify) {
 export function generateXVerifyCallback(payload) {
     return crypto.createHash('sha256').update(payload + SALT_KEY).digest('hex') + `###${SALT_INDEX}`;
 }
+
+export default {
+    BASE_URL,
+}
