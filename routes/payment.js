@@ -35,9 +35,6 @@ router.post('/createPhonePePayment', async (req, res) => {
     // Initiate Phonepe
     const response = await initiatePayment(base64EncodedPayload, X_VERIFY);
 
-    console.log("PhonePe Response: ");
-    console.dir(response, { depth: null });
-
     return res.send({
         redirectURL: response.data.instrumentResponse.redirectInfo.url
     });
