@@ -18,7 +18,6 @@ if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
 
 export function generateXVerifyPayment(payload) {
     const base64Encoded = plainToBase64(payload);
-    console.log("yeah js", base64Encoded)
     const requiredString = `${base64Encoded}/pg/v1/pay${SALT_KEY}`;
     const X_VERIFY = `${crypto.createHash('sha256').update(requiredString).digest('hex')}###${SALT_INDEX}`
     return X_VERIFY;
