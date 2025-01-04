@@ -28,6 +28,10 @@ export function plainToBase64(payload) {
     return Buffer.from(JSON.stringify(payload)).toString('base64');
 }
 
+export function base64ToPlain(base64EncodedPayload) {
+    return Buffer.from(base64EncodedPayload, 'base64').toString('utf8');
+}
+
 export async function initiatePayment(base64EncodedPayload, xVerify) {
     const data = await fetch(API_URL + '/pg/v1/pay', {
         method: "POST",
