@@ -37,43 +37,6 @@ A comprehensive implementation showcasing **X-Verify header validation** and sea
    cd phonepe_integration
 
 2. Install dependencies:
-# PhonePe Integration
-
-A comprehensive implementation showcasing **X-Verify header validation** and seamless **PhonePe payment integration** for web applications. This project ensures secure payment handling and robust webhook processing for real-time updates.
-
----
-
-## Features
-
-- **Payment Processing**: Secure integration with PhonePe's payment gateway.
-- **X-Verify Validation**: Ensures data integrity using PhonePe's hashing mechanism.
-- **Webhook Support**: Handles callbacks for payment success/failure notifications.
-- **Dynamic Payload Handling**: Customizable payload structure to fit various use cases.
-- **Redirect-Based User Experience**: Users are redirected to appropriate status pages after transaction completion.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js**: Ensure you have Node.js (LTS version) installed.
-- **Express.js**: The core framework for routing and handling requests.
-- **Ngrok**: For exposing local development servers to the internet.
-- **Environment Variables**: Set up a `.env` file with the following keys:
-  - `MERCHANT_ID`
-  - `NGROK_URL`
-  - `PHONEPE_API_TEST`
-  - `ENVIRONMENT` (e.g., `DEVELOPMENT` or `PRODUCTION`)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/majidshakeelshawl/phonepe_integration.git
-   cd phonepe_integration
-
-2. Install dependencies:
 ```bash
     npm install
 ```
