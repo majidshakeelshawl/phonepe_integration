@@ -54,7 +54,7 @@ A comprehensive implementation showcasing **X-Verify header validation** and sea
 Copy the public URL from Ngrok and update the NGROK_URL in your .env file.
 
 ### Usage
-1. Visit the homepage at http://localhost:3000.
+1. Visit the homepage at http://localhost:<SERVER_RUNNING_PORT>.
 2. Initiate a payment by clicking the "Pay with PhonePe" button.
 3. After payment, users are redirected to a status page (Payment Successful or Payment Failed).
 4. Webhooks will handle transaction updates based on the callback URL provided in the payload.
