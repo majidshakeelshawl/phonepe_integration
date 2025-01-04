@@ -12,7 +12,7 @@ router.post('/phonePe/web/callback', async (req, res) => {
     const computedXverify = generateXVerifyCallback(payload);
 
     if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
-        console.log(xVerify, computedXverify);
+        console.table({ xVerify, computedXverify });
     }
         if (xVerify !== computedXverify) {
             return res.status(401).send({
