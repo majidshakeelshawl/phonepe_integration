@@ -2,10 +2,8 @@ import express from 'express';
 import os from 'os';
 import morgan from 'morgan';
 
-// Routers
-import webhookRouter from './routes/webhook.js';
-import paymentRouter from './routes/payment.js';
-import homeRouter from './routes/home.js';
+// Router
+import indexRouter from './routes/index.js';
 
 const app = express();
 app.use(express.json());
@@ -18,11 +16,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // Home routes
-app.use('/', homeRouter);
-// Payment routes
-app.use('/payment', paymentRouter);
-// Webhook routes
-app.use('/webhook', webhookRouter);
+app.use('/', indexRouter);
 
 // Static
 app.use(express.static('public'));
